@@ -1,0 +1,47 @@
+name: BrooklynCountdown
+options:
+  bundleIdPrefix: com.ayonika
+  deploymentTarget:
+    macOS: "15.0"
+settings:
+  base:
+    SWIFT_VERSION: "5.0"
+    MARKETING_VERSION: "1.0"
+    CURRENT_PROJECT_VERSION: "1"
+targets:
+  BrooklynCountdown:
+    type: application
+    platform: macOS
+    sources:
+      - path: App
+        excludes: ["*.entitlements"]
+      - path: Shared
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.ayonika.brooklyncountdown
+        CODE_SIGN_ENTITLEMENTS: App/App.entitlements
+        GENERATE_INFOPLIST_FILE: YES
+        INFOPLIST_KEY_CFBundleDisplayName: Brooklyn Countdown
+        INFOPLIST_KEY_LSApplicationCategoryType: public.app-category.lifestyle
+        ENABLE_HARDENED_RUNTIME: YES
+    dependencies:
+      - target: BrooklynWidget
+        embed: true
+  BrooklynWidget:
+    type: app-extension
+    platform: macOS
+    sources:
+      - path: Widget
+        excludes: ["*.entitlements", "Info.plist"]
+      - path: Shared
+    info:
+      path: Widget/Info.plist
+      properties:
+        CFBundleDisplayName: Brooklyn Countdown
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.widgetkit-extension
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.ayonika.brooklyncountdown.widget
+        CODE_SIGN_ENTITLEMENTS: Widget/Widget.entitlements
+        ENABLE_HARDENED_RUNTIME: YES
